@@ -1,0 +1,108 @@
+{%extends 'base.html'%}
+<!--main-->
+{%load static%}
+<!--main-->
+{%load humanize%}
+<!--main-->
+{%block title%} | User Dashboard{%endblock%}
+<!--main-->
+{%block content%}
+
+<section class="text-white bg-success py-4">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-md-12">
+        <h1 class="display-4">Welcome {{user.first_name}}</h1>
+        <p class="lead">Car Rentals Management System is For You</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Alerts -->
+
+{%include 'partials/_alerts.html'%}
+<!-- Breadcrumb -->
+<section id="bc" class="mt-3">
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="{%url 'index'%}"> <i class="fas fa-home"></i> Home</a>
+        </li>
+        <li class="breadcrumb-item active">My Dashboard</li>
+      </ol>
+    </nav>
+  </div>
+</section>
+{%if reservations%} {%for reservation in reservations%}
+<section id="dashboard" class="py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+        <div class="card-header">
+          <h4>Here are your Reservations Details</h4>
+        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr class="text-info">
+              <th scope="col">Car</th>
+              <th scope="col">Reg No.</th>
+              <th scope="col">Pick Date</th>
+              <th scope="col">Return Date</th>
+              <th scope="col">Period</th>
+              <th scope="col">Returned</th>
+              <th scope="col">Fee</th>
+              <th scope="col">Fine</th>
+              <th scope="col">Payment Status</th>
+              <th scope="col">Station</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{reservation.car|title}}</td>
+              <td>{{reservation.car.Reg_No|upper}}</td>
+              <td>{{reservation.pick_date}}</td>
+              <td>{{reservation.return_date}}</td>
+              <td>
+                {% ifequal reservation.duration 0 %}
+                <small class="text-primary"> Today Only </small>{% else %}
+                {{reservation.duration|intcomma}} days {% endifequal %}
+              </td>
+              <td>{{reservation.has_returned}}</td>
+              <td>{{reservation.car.fee|intcomma}}</td>
+              <td>
+                {% ifequal reservation.is_overdue True %}
+                <b class="text-danger">{{reservation.fine|intcomma}}</b> {% else %}<b class="text-primary">Nil</b> {% endifequal %}
+              </td>
+              <td>
+                {% ifequal reservation.has_paid True %}
+                <b class="text-primary">PAID</b> {% else %}<b
+                  class="text-danger"
+                  >PENDING</b
+                >
+                {% endifequal %}
+              </td>
+              <td>{{reservation.station|title}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+{%endfor%} {%else%}
+<section id="dashboard" class="py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <p class="lead">You haven't made any Reservation</p>
+      </div>
+      <div class="col-md-12">
+        <a href="{%url 'display'%}">Check out Our Automobiles Here</a>
+      </div>
+    </div>
+  </div>
+  {%endif%} {%endblock%}
+</section>

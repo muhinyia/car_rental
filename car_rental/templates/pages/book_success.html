@@ -1,0 +1,72 @@
+{%extends 'base.html'%}
+<!--main-->
+{%load humanize%}
+<!--main-->
+{%load static%}
+<!--main-->
+{%block title%} | User Dashboard{%endblock%}
+<!--main-->
+{%block content%}
+
+<!-- Alerts -->
+
+{%include 'partials/_alerts.html'%}
+
+
+<section id="showcase-inner" class="py-2 text-white bg-secondary">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-md-12">
+        <h1 class="display-4">Booking Successful</h1>
+        <p class="lead">
+          Hi
+          <b class="text-primary">
+            {{user.first_name|upper}} {{user.last_name|upper}}</b
+          >, We have processed your Booking request and an Automobile: <b class="text-danger"> {{car.name}} </b> of Registration Number: <b class="text-danger"> {{car.Reg_No}} </b> has been reserved for
+          you.
+        </p>
+        <p class="lead">
+          Please collect this Automobile from our station <b class="text-danger"> {{station.name}} </b> in
+          <b class="text-danger"> {{station.town}} </b> ,<b class="text-danger"> {{station.county}} </b> County Office Mobile: <b class="text-danger"> {{station.mobile}} </b>
+        </p>
+
+        <hr />
+
+        <p class="display-4 text-danger text-center" style="color: red;">
+          It is worth Noting:
+        </p>
+        <div class="text-primary">
+          <p>
+            <i class="fas fa-check fa-2x"></i> You are expected to return this
+            Automoblie to our station before the end of <b class="text-danger">{{return_date}}</b> (strictly
+            before 6 P.M).
+          </p>
+
+          <p>
+            <i class="fas fa-check fa-2x"></i> Failure to return this Automoblie
+            on the agreed upon date will attract a penalty of Ksh.
+            <b class="text-danger">{{car.fine_rate}}</b>
+            <small class="text-info">PER DAY</small>
+          </p>
+          <p>
+            <i class="fas fa-check fa-2x"></i> You are expected to clear your
+            Hiring fee at the Station before collecting this Automoblie
+          </p>
+          <p>
+            <i class="fas fa-check fa-2x"></i> Incase of Loss of this Automobile
+            you will stand answerable for it.
+          </p>
+        </div>
+
+        <h1 class="display-4">Enjoy Riding With Us</h1>
+        <p class="lead">Car Rentals Management is For You</p>
+
+        <a href="{%url 'dashboard'%}" class="btn-info btn-lg btn-block"
+          >GO TO MY DASHBOARD</a
+        >
+      </div>
+    </div>
+  </div>
+</section>
+
+{%endblock%}

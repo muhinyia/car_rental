@@ -1,0 +1,28 @@
+body {
+  overflow-x: hidden;
+}
+
+.navbar .nav-link {
+  font-size: 16px;
+  text-transform: uppercase;
+}
+.carousel-item {
+  height: 450px;
+}
+
+.carousel-image-1 {
+  background: url("../img/lexus.jpg");
+  background-size: cover;
+}
+.carousel-image-2 {
+  background: url("../img/landcruiser.jpg");
+  background-size: cover;
+}
+.carousel-image-3 {
+  background: url("../img/bmw.jpg");
+  background-size: cover;
+}
+.listing-preview {
+  position: relative;
+  height: 550px;
+}

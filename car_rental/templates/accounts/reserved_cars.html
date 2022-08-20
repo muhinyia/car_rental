@@ -1,0 +1,140 @@
+{%extends 'base.html'%}
+<!--humanize-->
+{%load humanize%}
+<!--title-->
+{%block title%}| Admin Dashboard {%endblock%}
+<!--block content-->
+{%block content%}
+<!-- ACTIONS -->
+<section class="text-white bg-success">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-12">
+                <h1 class="display-4">Admin's Page</h1>
+                <p class="lead">Management Page </p>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="actions" class="py-4 mb-4 bg-light">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <a href="{%url 'admins'%}" class="btn btn-info btn-block">
+                    <i class="fas fa-folder"></i> View Active Reservations
+                </a>
+            </div>
+            <div class="col-md-4">
+                    <button class="btn btn-success btn-block " data-toggle="modal" data-target="#inquiryModal"> <i class="fas fa-car"></i> Car Clearance</button>
+            </div>
+<div class="col-md-4">
+    <div class="dropdown">
+        <button class="btn btn-secondary btn-block dropdown-toggle" type="button" data-toggle="dropdown">
+            Management
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/admin/company/station/add/">Add Station</a>
+            <a class="dropdown-item" href="/admin/company/reservation/?has_returned__exact=1">Reservations History</a>
+            <a class="dropdown-item" href="/admin/company/car/add/">Add Automobile</a>
+            <a class="dropdown-item" href="/admin/auth/user/">Our Customers</a>
+            <a class="dropdown-item" href="{%url 'feedback'%}">Customer's Feedback</a>
+    
+        </div>
+    </div>
+</div>
+        </div>
+    </div>
+</section>
+{%include 'partials/_alerts.html'%}
+<!-- POSTS -->
+{%if car%}
+<section id="posts">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Active Reservations</h4>
+                    </div>
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Customer </th>
+                                <th>ID No.</th>
+                                <th>Car Hired</th>
+                                <th>Reg No</th>
+                                <th>Pick Date</th>
+                                <th>Return Date</th>
+                                <th>Station</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{car.customer.id.first_name}} </td>
+                                <td>{{car.id_number}}</td>
+                                <td>{{car.car}}</td>
+                                <td>{{car.car.Reg_No}}</td>
+                                <td>{{car.pick_date}}</td>
+                                <td>{{car.return_date}}</td>
+                                <td>{{car.station}}</td>                                
+                                <td>
+                                    <a href="{%url 'car_clear' car.id%}" class="btn btn-secondary">
+                                        <i class="fas fa-angle-double-right"></i> CLEAR
+                                    </a>
+                                </td>
+                               
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                   
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+{%else%}
+<div class="warning">
+    <p class="lead display-4 ">
+        There are no Reservations Linked to this Customer
+    </p>
+    <p class="lead">
+        Reservations list appears here
+    </p>
+</div>
+
+
+{%endif%}
+
+<!-- Inquiry Modal -->
+<div class="modal fade" id="inquiryModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="inquiryModalLabel">Car Clearance</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{%url 'clearing'%}" method="POST">
+                    {%csrf_token%}
+                    <div class="form-group">
+                        <label for="id" class="col-form-label">Customer ID:</label>
+                        <input type="number" name="customer_id" class="form-control" min="0" maxlength="9" placeholder="Enter Customer's ID Here" required>
+                    </div>
+                    
+
+                    <input type="submit" value="Clear Car" class="btn btn-block btn-info btn-sm">
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+{%endblock%}
